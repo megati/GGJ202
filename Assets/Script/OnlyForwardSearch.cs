@@ -32,7 +32,7 @@ public class OnlyForwardSearch : MonoBehaviour
                 //Rayの飛ばせる距離
                 int distance = 10;
 
-                //  Debug.DrawRay(transform.position, playerDirection, Color.red);
+                Debug.DrawRay(transform.position, playerDirection, Color.red);
                 //もしRayにオブジェクトが衝突したら
                 //                  ↓Ray  ↓Rayが当たったオブジェクト ↓距離
                 if (Physics.Raycast(ray, out hit, distance))
