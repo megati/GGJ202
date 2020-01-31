@@ -16,9 +16,13 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private new Rigidbody rigidbody;
 
+    [SerializeField]
+    private Animator animator;
+
     private void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     void Update()
     {
@@ -36,6 +40,11 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             transform.position += transform.forward * speed * Time.deltaTime;
+            animator.SetBool("IsDash", true);
+        }
+        else
+        {
+            animator.SetBool("IsDash", false);
         }
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
