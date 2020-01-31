@@ -16,6 +16,16 @@ public class OnlyForwardSearch : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
     private Renderer debugRenderer;
+    //private void PlayAnim()
+    //{
+    //    var binder = new AnimationEventBinder(anim);
+
+    //    binder.SetStateInfo(SurprisedIconAnimeState.SurprisedIconOn__L0)
+    //        .BindCompletedEvent(() =>
+    //        {
+    //            Debug.LogError("こんちわ");
+    //        }).Play();
+    //}
     
     private void Awake()
     {
