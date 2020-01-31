@@ -11,7 +11,8 @@ public class OnlyForwardSearch : MonoBehaviour
     private GameObject enemy=null;
     [Tooltip("敵の視野角の設定")]
     public float searchAngle = 130f;
-
+    [SerializeField]
+    private Animator anim=null;
     private Ray ray;
     private RaycastHit hit;
     private Renderer debugRenderer;
@@ -22,7 +23,8 @@ public class OnlyForwardSearch : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        
+        if (other.CompareTag("Player"))
         {
             //　主人公の方向
             var playerDirection = other.transform.position - transform.position;
@@ -44,6 +46,7 @@ public class OnlyForwardSearch : MonoBehaviour
                     //Rayが当たったオブジェクトのtagがPlayerだったら
                     if (hit.collider.tag == "Player")
                     {
+                        anim.SetBool("Is_Surprise", true);
                         debugRenderer.material.color = new Color(255, 255, 255);
                     }
 
@@ -56,6 +59,7 @@ public class OnlyForwardSearch : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        anim.SetBool("Is_Surprise", false);
         debugRenderer.material.color = new Color(255, 0, 0);
         if (other.tag == "Player")
         {
