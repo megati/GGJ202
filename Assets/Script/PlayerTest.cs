@@ -6,9 +6,9 @@ using UnityEngine;
 public class PlayerTest : MonoBehaviour
 {
     [SerializeField]
-    private Vector3 moveAngle;
+    private Vector3 moveAngle=default;
     [SerializeField]
-    private float moveTime;
+    private float moveTime=0.0f;
     // Start is called before the first frame update
     void Start()
     {
