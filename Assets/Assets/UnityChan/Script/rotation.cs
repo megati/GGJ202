@@ -5,6 +5,10 @@ using UnityEngine;
 public class rotation : MonoBehaviour
 {
     [SerializeField]
-    private float debugAngle;
- 
+    private  Vector3 debugAngle;
+    private void FixedUpdate()
+    {
+        transform.Rotate(debugAngle);
+    }
+
 }
