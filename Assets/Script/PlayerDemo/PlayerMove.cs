@@ -46,17 +46,18 @@ public class PlayerMove : MonoBehaviour
         {
             animator.SetBool("IsDash", false);
         }
+
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
-            transform.position -= transform.forward * speed * Time.deltaTime;
+            transform.position -= transform.forward * (speed*0.4f) * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            transform.position += transform.right * speed * Time.deltaTime;
+            transform.position += transform.right * (speed * 0.4f) * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            transform.position -= transform.right * speed * Time.deltaTime;
+            transform.position -= transform.right * (speed * 0.4f) * Time.deltaTime;
         }
     }
 
