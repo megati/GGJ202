@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rotation : MonoBehaviour
+public class Rotation : MonoBehaviour
 {
     [SerializeField]
     private  Vector3 debugAngle;

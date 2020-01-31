@@ -7,11 +7,19 @@ public class OnlyForwardSearch : MonoBehaviour
 {
     [SerializeField]
     private SphereCollider searchArea;
-
+    [SerializeField]
+    private GameObject enemy;
     [Tooltip("敵の視野角の設定")]
     public float searchAngle = 130f;
 
+    private Ray ray;
+    private RaycastHit hit;
+    private Renderer renderer;
     
+    private void Awake()
+    {
+        renderer=enemy.GetComponent<Renderer>();
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Player")
@@ -24,11 +32,7 @@ public class OnlyForwardSearch : MonoBehaviour
             if (angle <= searchAngle)
             {
                 //Rayの作成　　　　　　　↓Rayを飛ばす原点　　　↓Rayを飛ばす方向
-                Ray ray = new Ray(transform.position, playerDirection);
-
-                //Rayが当たったオブジェクトの情報を入れる箱
-                RaycastHit hit;
-
+                ray = new Ray(transform.position, playerDirection);
                 //Rayの飛ばせる距離
                 int distance = 10;
 
@@ -39,7 +43,11 @@ public class OnlyForwardSearch : MonoBehaviour
                 {
                     //Rayが当たったオブジェクトのtagがPlayerだったら
                     if (hit.collider.tag == "Player")
-                        Debug.Log("RayがPlayerに当たった");
+                    {
+                        renderer.material.color = new Color(255, 255, 255);
+                    }
+
+                    Debug.Log("RayがPlayerに当たった");
                 }
                 //Debug.Log("主人公発見: " + angle);
             }
@@ -48,6 +56,7 @@ public class OnlyForwardSearch : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        renderer.material.color = new Color(255, 0, 0);
         if (other.tag == "Player")
         {
         }
