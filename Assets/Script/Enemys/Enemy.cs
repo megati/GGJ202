@@ -24,65 +24,79 @@ public class Enemy : MonoBehaviour
     /// </summary>
     RoutePoint nextRoutePoint = null;
 
-    Transform Player = null;
-
     float LostedChaseTime = 0.0f;
 
     NavMeshAgent navMeshAgent = null;
 
+    Animator animator = null;
+
     AnimationEventBinder animationEventBinder = null;
+
+    private void Awake()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+    }
 
     private void OnEnable()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-
         nextRoutePoint = RoutePointManager.Instance.GetNearRoutePoint(transform.position);
         navMeshAgent.SetDestination(nextRoutePoint.transform.position);
     }
 
     void Update()
     {
-        //switch(enemyState)
-        //{
-        //    case EnemyState.Chase:
-        //        {
-        //            break;
-        //        }
-        //    case EnemyState.Lost:
-        //        {
-        //            if(navMeshAgent.isStopped)
-        //            {
-        //                return;
-        //            }
+        switch(enemyState)
+        {
+            case EnemyState.Chase:
+                {
+                    navMeshAgent.SetDestination(EnemyManager.Instance.GetPlayerTransform().position);
 
-        //            navMeshAgent.SetDestination(Player.transform.position);
+                    break;
+                }
+            case EnemyState.Lost:
+                {
+                    if(navMeshAgent.isStopped)
+                    {
+                        return;
+                    }
 
-        //            LostedChaseTime += Time.deltaTime;
-        //            if (LostedChaseTime >= 2.0f)
-        //            {
-        //                LostedChaseTime = 0.0f;
-        //                navMeshAgent.isStopped = true;
+                    navMeshAgent.SetDestination(EnemyManager.Instance.GetPlayerTransform().position);
 
-        //                animationEventBinder = animationEventBinder ?? new AnimationEventBinder(GetComponent<Animator>());
-        //                animationEventBinder.SetStateInfo(TitanAnimeState.Idle__L0)
-        //                    .BindFinishedEvent(() =>
-        //                    {
-        //                        enemyState = EnemyState.Patrol;
-        //                        navMeshAgent.isStopped = false;
-        //                        nextRoutePoint = RoutePointManager.Instance.GetNearRoutePoint(transform.position);
-        //                        navMeshAgent.SetDestination(nextRoutePoint.transform.position);
+                    LostedChaseTime += Time.deltaTime;
+                    if (LostedChaseTime >= 2.0f)
+                    {
+                        LostedChaseTime = 0.0f;
+                        navMeshAgent.isStopped = true;
 
-        //                        animationEventBinder.SetStateInfo(TitanAnimeState.Walk__L0).Play();
+                        //enemyState = EnemyState.Patrol;
+                        //navMeshAgent.isStopped = false;
+                        //nextRoutePoint = RoutePointManager.Instance.GetNearRoutePoint(transform.position);
+                        //navMeshAgent.SetDestination(nextRoutePoint.transform.position);
+                        //animator.Play(TitanAnimeState.Walk__L0);
 
-        //                    }).Play();
-        //            }
-        //            break;
-        //        }
+                        animationEventBinder = animationEventBinder ?? new AnimationEventBinder(GetComponent<Animator>());
+                        animationEventBinder.SetStateInfo(TitanAnimeState.Idle__L0)
+                            .BindCompletedEvent(() =>
+                            {
+                                enemyState = EnemyState.Patrol;
+                                navMeshAgent.isStopped = false;
+                                nextRoutePoint = RoutePointManager.Instance.GetNearRoutePoint(transform.position);
+                                navMeshAgent.SetDestination(nextRoutePoint.transform.position);
+
+                                animator.Play(TitanAnimeState.Walk__L0);
+
+                            }).Play();
+
+                        //Debug.Log("on");
+                    }
+                    break;
+                }
         //    case EnemyState.Patrol:
         //        {
         //            break;
         //        }
-        //}
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -163,8 +177,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// プレイヤーを発見した際に呼ぶ
     /// </summary>
-    /// <param name="position">Position.</param>
-    public void FoundPlayer(Vector3 position)
+    public void FoundPlayer()
     {
         //if(enemyState != EnemyState.Chase)
         //{
@@ -173,19 +186,32 @@ public class Enemy : MonoBehaviour
         //    navMeshAgent.isStopped = false;
         //}
 
-        //navMeshAgent.SetDestination(position);
+        if (enemyState != EnemyState.Chase)
+        {
+            enemyState = EnemyState.Chase;
+            navMeshAgent.isStopped = false;
+
+            //animator.SetTrigger(TitanAnimeParam.RunTrigger);
+            animator.Play(TitanAnimeState.Run__L0);
+        
+        }
     }
 
     /// <summary>
     /// 追跡中にプレイヤーを見失ったらよ呼ぶ
     /// </summary>
-    /// <param name="player">Player.</param>
-    public void LostPlayer(Transform player)
+    public void LostPlayer()
     {
         //if(enemyState == EnemyState.Chase)
         //{
         //    enemyState = EnemyState.Lost;
         //    Player = player;
         //}
+
+        if (enemyState == EnemyState.Chase)
+        {
+            enemyState = EnemyState.Lost;
+            navMeshAgent.isStopped = false;
+        }
     }
 }
