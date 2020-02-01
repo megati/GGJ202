@@ -39,28 +39,45 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void Move()
     {
+        bool isNoTap = true;
+
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             transform.position += transform.forward * speed * Time.deltaTime;
             animator.SetBool("IsDash", true);
+            isNoTap = false;
         }
-        else
-        {
+        else {
             animator.SetBool("IsDash", false);
         }
 
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
-            transform.position -= transform.forward * (speed*0.4f) * Time.deltaTime;
+            transform.position -= transform.forward * (speed * 0.4f) * Time.deltaTime;
+            isNoTap = false;
         }
+
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             transform.position += transform.right * (speed * 0.4f) * Time.deltaTime;
+            animator.SetBool("IsRight", true);
+            isNoTap = false;
         }
+        else {
+            animator.SetBool("IsRight", false);
+        }
+
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             transform.position -= transform.right * (speed * 0.4f) * Time.deltaTime;
+            animator.SetBool("IsLeft", true);
+            isNoTap = false;
         }
+        else {
+            animator.SetBool("IsLeft", false);
+        }
+
+        animator.SetBool("IsWait", isNoTap);
     }
 
     /// <summary>
