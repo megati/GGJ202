@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 764817081488057999}
   - component: {fileID: 764817081488057998}
   - component: {fileID: 764817081488057997}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RoutePoint
   m_TagString: RoutePoint
   m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
