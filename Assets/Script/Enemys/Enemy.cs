@@ -9,6 +9,12 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
+    [SerializeField]
+    float walkSpeed = 2.0f;
+
+    [SerializeField]
+    float runSpeed = 3.0f;
+
     /// <summary>
     /// 敵の状態
     /// </summary>
@@ -36,6 +42,8 @@ public class Enemy : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        navMeshAgent.speed = walkSpeed;
     }
 
     private void OnEnable()
@@ -83,7 +91,7 @@ public class Enemy : MonoBehaviour
                                 navMeshAgent.isStopped = false;
                                 nextRoutePoint = RoutePointManager.Instance.GetNearRoutePoint(transform.position);
                                 navMeshAgent.SetDestination(nextRoutePoint.transform.position);
-
+                                navMeshAgent.speed = walkSpeed;
                                 animator.Play(TitanAnimeState.Walk__L0);
 
                             }).Play();
@@ -96,6 +104,16 @@ public class Enemy : MonoBehaviour
         //        {
         //            break;
         //        }
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("GameOver");
+
+            GamaeManager.Instance.IsDirecting = true;
         }
     }
 
@@ -190,7 +208,7 @@ public class Enemy : MonoBehaviour
         {
             enemyState = EnemyState.Chase;
             navMeshAgent.isStopped = false;
-
+            navMeshAgent.speed = runSpeed;
             //animator.SetTrigger(TitanAnimeParam.RunTrigger);
             animator.Play(TitanAnimeState.Run__L0);
         
