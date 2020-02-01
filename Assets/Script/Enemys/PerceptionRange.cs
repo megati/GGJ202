@@ -26,19 +26,7 @@ public class PerceptionRange : MonoBehaviour
                 {
                     enemy.FoundPlayer();
                 }
-                else
-                {
-                    enemy.LostPlayer();
-                }
             }
-            else
-            {
-                enemy.LostPlayer();
-            }
-        }
-        else
-        {
-            enemy.LostPlayer();
         }
     }
 }

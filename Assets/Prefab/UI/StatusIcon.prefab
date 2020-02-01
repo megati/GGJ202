@@ -85,3 +85,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4388c798d20467e947a666c2487f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SearchStatusIcon: {fileID: 21300000, guid: 4ab38d0e31f8c3243a35253734da655d, type: 3}
+  WaringStatusIcon: {fileID: 21300000, guid: b0119dffede2b7f498629dd9e88795a0, type: 3}
+  DangerStatusIcon: {fileID: 21300000, guid: 9f871d73e14fc9e428ad12ba9a887424, type: 3}
