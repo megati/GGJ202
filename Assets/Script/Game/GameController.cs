@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         //演出中なら処理しない
-        if (GamaeManager.Instance.IsDirecting) return;
+        if (GameManager.Instance.IsDirecting) return;
 
         time += 1.0f * Time.deltaTime;
         //99分59秒で表示を止める

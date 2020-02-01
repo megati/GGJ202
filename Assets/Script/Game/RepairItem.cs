@@ -2,12 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// プレイヤーの持たせ方
+/// </summary>
+public enum HoldType
+{
+    BAG,
+    RUCKSACK
+}
+
+/// <summary>
+/// 回収するアイテム
+/// </summary>
+public enum RepairItemType
+{
+    CYLINDER,   //ボンベ
+    FUSE,       //ヒューズ
+    RACK,
+    PACK
+}
+
 public class RepairItem : MonoBehaviour
 {
     [SerializeField]
     private GameObject Point;
 
+    [Header("Option")]
+    //プレイヤーの持ち方
+    [SerializeField]
+    private HoldType holdType= HoldType.BAG;
+    //回収するアイテム
+    [SerializeField]
+    private RepairItemType repairItemType = RepairItemType.CYLINDER;
+
     private GameObject Player;
+    private bool isHolad = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +47,14 @@ public class RepairItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isHolad && Input.GetMouseButtonDown(0))
+        {
+            PlayerState playerState = Player.GetComponent<PlayerState>();
+            //所有権を放棄
+            playerState.PossessionRelease();
+            //地上に返す
+            isHolad = false;
+        }
     }
 
     /// <summary>
@@ -27,12 +63,26 @@ public class RepairItem : MonoBehaviour
     /// <param name="other">ぶつかったもの</param>
     void OnTriggerStay(Collider other)
     {
+        if (isHolad) return;
+
         if (other.tag == "Player")
         {
             if (Input.GetMouseButtonDown(0))
             {
+                PlayerState playerState= Player.GetComponent<PlayerState>();
+                if (playerState.IsHolad()) return;
+
                 Point.SetActive(false);
-                transform.SetParent(Player.GetComponent<PlayerMove>().GetCarryTransform(), false);
+                if (holdType == HoldType.BAG)
+                {
+                    transform.SetParent(playerState.GetBagTransform(), false);
+                }
+                else
+                {
+                    transform.SetParent(playerState.GetRuckSackTransform(), false);
+
+                }
+                isHolad = true;
             }
         }
     }
