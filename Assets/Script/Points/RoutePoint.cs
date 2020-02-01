@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 道を示す
+/// </summary>
+[DefaultExecutionOrder(-1)]
 public class RoutePoint : MonoBehaviour
 {
     /// <summary>
@@ -50,16 +54,6 @@ public class RoutePoint : MonoBehaviour
     /// <param name="preRoutePoint">Pre route point.</param>
     public virtual RoutePoint GetaNextRoutePoint(RoutePoint preRoutePoint)
     {
-        //RoutePoint nextRoutePoint = null;
-
-        //foreach (var routePoint in nextRoutePointCandidates)
-        //{
-        //    if(routePoint!= preRoutePoint)
-        //    {
-        //        nextRoutePoint = routePoint;
-        //    }
-        //}
-
         var nextRoutePoint = nextRoutePointCandidates.Find(x => x != preRoutePoint);
         if(nextRoutePoint)
         {

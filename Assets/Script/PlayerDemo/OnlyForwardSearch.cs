@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class OnlyForwardSearch : MonoBehaviour
 {
-    [SerializeField]
-    private SphereCollider searchArea=null;
-    [SerializeField]
-    private GameObject enemy=null;
+    //[SerializeField]
+    //private Collider searchArea=null;
+    //[SerializeField]
+    //private GameObject enemy=null;
     [Tooltip("敵の視野角の設定")]
     public float searchAngle = 130f;
     [SerializeField]
@@ -27,10 +27,10 @@ public class OnlyForwardSearch : MonoBehaviour
     //        }).Play();
     //}
     
-    private void Awake()
-    {
-        debugRenderer=enemy.GetComponent<Renderer>();
-    }
+    //private void Awake()
+    //{
+    //    debugRenderer=enemy.GetComponent<Renderer>();
+    //}
     private void OnTriggerStay(Collider other)
     {
         
@@ -79,8 +79,8 @@ public class OnlyForwardSearch : MonoBehaviour
     //　サーチする角度表示
     private void OnDrawGizmos()
     {
-        Handles.color = Color.red;
-        Handles.DrawSolidArc(transform.position, Vector3.up, Quaternion.Euler(0f, -searchAngle, 0f) * transform.forward, searchAngle * 2f, searchArea.radius);
+        //Handles.color = Color.red;
+        //Handles.DrawSolidArc(transform.position, Vector3.up, Quaternion.Euler(0f, -searchAngle, 0f) * transform.forward, searchAngle * 2f, searchArea.radius);
     }
 #endif
 }
