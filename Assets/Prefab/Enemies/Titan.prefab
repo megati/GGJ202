@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1937370497632100904}
   - component: {fileID: 1937370497632100905}
   - component: {fileID: 1937370497632100886}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PerceptionRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,8 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a26e9143ecf46f9bbb764ef7625455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  IsRayCheck: 1
+  enemy: {fileID: 4312617929095474203}
 --- !u!1 &4312617929095474176
 GameObject:
   m_ObjectHideFlags: 0
