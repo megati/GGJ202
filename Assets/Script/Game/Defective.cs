@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class Defective : MonoBehaviour
 {
     [SerializeField]
+    private GameObject UI;
+    [SerializeField]
     private GameObject popUp;
     [SerializeField]
     private GameObject mousePlease;
@@ -42,6 +44,7 @@ public class Defective : MonoBehaviour
         if (other.tag == "Player")
         {
             popupAnimation.Play();
+            UI.SetActive(true);
             //TODO:マウスを出すタイミングだった場合コメントを外す
             //mousePlease.SetActive(true);
         }
@@ -55,6 +58,7 @@ public class Defective : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            UI.SetActive(false);
             popupAnimation.Stop();
             popUp.SetActive(false);
             mousePlease.SetActive(false);

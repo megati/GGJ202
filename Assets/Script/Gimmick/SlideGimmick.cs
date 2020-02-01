@@ -5,6 +5,10 @@ using UnityEngine.UI;
 public class SlideGimmick : MonoBehaviour
 {
     [SerializeField]
+    private GameObject missText = null;
+    [SerializeField]
+    private GameObject niceText = null;
+    [SerializeField]
     private float checkSpeed = 1;
     [SerializeField]
     private Vector2 checkRange = default;
@@ -15,6 +19,7 @@ public class SlideGimmick : MonoBehaviour
     [SerializeField]
     private GameObject targetScrollbar = null;
     private float num=0;
+    private bool miss=false;
     private Image targetImage = null;
     private Scrollbar nowPos = null;
     private Scrollbar targetPos = null;
@@ -38,28 +43,31 @@ public class SlideGimmick : MonoBehaviour
         {
             Check();
         }
-        if (!is_Counter)
+        if (!miss)
         {
-            if (num < 100)
+            if (!is_Counter)
             {
-                num += 1 * checkSpeed*Time.deltaTime;
+                if (num < 100)
+                {
+                    num += 1 * checkSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    is_Counter = true;
+                    num = 0;
+                }
             }
             else
             {
-                is_Counter = true;
-                num = 0;
-            }
-        }
-        else
-        {
-            if (num < 100)
-            {
-                num += 1 * checkSpeed* Time.deltaTime;
-            }
-            else
-            {
-                is_Counter = false;
-                num = 0;
+                if (num < 100)
+                {
+                    num += 1 * checkSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    is_Counter = false;
+                    num = 0;
+                }
             }
         }
     }
@@ -68,11 +76,34 @@ public class SlideGimmick : MonoBehaviour
         Debug.Log(100 - checkRange.y);
         if (num >= checkRange.x && num <= checkRange.y + checkRange.x)
         {
-            num = 0;
+            niceText.SetActive(true);
+            StartCoroutine(NextTargetPos());
             Debug.Log("修理時間-5秒");
-            //ランダムで位置を変更
-            checkRange.x = Random.Range(0, 100 - checkRange.y);
-            targetPos.value = checkRange.x / 100;
         }
+        else
+        {
+            miss = true;
+            missText.SetActive(true);
+            StartCoroutine(Delay());
+        }
+    }
+    IEnumerator NextTargetPos()
+    {
+        checkBox.SetActive(false);
+        //ランダムで位置を変更
+        checkRange.x = Random.Range(0, 100 - checkRange.y);
+        targetPos.value = checkRange.x / 100;
+        yield return new WaitForSeconds(0.5f);
+        niceText.SetActive(false);
+        checkBox.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+    }
+    IEnumerator Delay()
+    {
+
+        yield return new WaitForSeconds(0.5f);
+        missText.SetActive(false);
+        miss = false;
+        num = 0;
     }
 }

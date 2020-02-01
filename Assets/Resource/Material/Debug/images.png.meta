@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: c8fe0f18daa759147906d0522cacf3f3
+=======
+guid: eab53f3f0e21e9145836d7948a29d0a8
+>>>>>>> 統合　UI　スキル
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
