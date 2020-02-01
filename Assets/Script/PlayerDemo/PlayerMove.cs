@@ -18,8 +18,6 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField]
     private Animator animator;
-    [SerializeField]
-    private Transform CarryTransform;
 
     private void Start()
     {
@@ -89,6 +87,4 @@ public class PlayerMove : MonoBehaviour
         //Y軸を更新します（キャラクターを回転）取得したX軸の変更をキャラクターのY軸に反映します
         transform.Rotate(0, rotationX, 0);
     }
-
-    public Transform GetCarryTransform() { return CarryTransform; }
 }

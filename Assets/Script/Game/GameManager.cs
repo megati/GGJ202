@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// ゲームを管理するシングルトン
 /// </summary>
-public class GamaeManager : SingletonMonoBehaviour<GamaeManager>
+public class GameManager : SingletonMonoBehaviour<GameManager>
 {
     //演出中か
     private bool isDirecting = false;

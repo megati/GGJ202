@@ -117,7 +117,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("GameOver");
 
-            GamaeManager.Instance.IsDirecting = true;
+            GameManager.Instance.IsDirecting = true;
         }
     }
 
