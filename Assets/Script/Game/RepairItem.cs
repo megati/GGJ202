@@ -78,10 +78,12 @@ public class RepairItem : MonoBehaviour
                 if (holdType == HoldType.BAG)
                 {
                     transform.SetParent(playerState.GetBagTransform(), false);
+                    transform.localPosition = new Vector3(0, 0, 0);
                 }
                 else
                 {
                     transform.SetParent(playerState.GetRuckSackTransform(), false);
+                    transform.localPosition = new Vector3(0, 0, 0);
 
                 }
                 //当たり判定をなくす

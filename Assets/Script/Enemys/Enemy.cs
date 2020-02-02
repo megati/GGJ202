@@ -120,7 +120,10 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             GameManager.Instance.IsDirecting = true;
-
+            DataSave save = new DataSave();
+            BestTime bestTime;
+            bestTime.bestRecord = 0;
+            save.SaveLocalDataToJson(bestTime);
             SceneTransition.Instance.TransitionScene(SceneName.Result);
         }
     }
