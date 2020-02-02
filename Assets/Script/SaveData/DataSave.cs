@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class DataSave : MonoBehaviour
+public class DataSave 
 {
     /// <summary>
     /// ローカルデータを保存するファイルのパス
