@@ -7,6 +7,9 @@ public class GaugeController : MonoBehaviour
     [SerializeField]
     private List<Bar> barList;
 
+    [SerializeField]
+    private GameController gameController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +28,11 @@ public class GaugeController : MonoBehaviour
         if (isPerfect || Input.GetKeyDown(KeyCode.P))
         {
             GameManager.Instance.IsDirecting = true;
+            DataSave save = new DataSave();
+            BestTime bestTime;
+            bestTime.bestRecord = (int)gameController.GetTime();
+            save.SaveLocalDataToJson(bestTime);
+            SceneTransition.Instance.TransitionScene(SceneName.Result);
         }
     }
 }
