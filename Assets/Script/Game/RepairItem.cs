@@ -84,6 +84,8 @@ public class RepairItem : MonoBehaviour
                     transform.SetParent(playerState.GetRuckSackTransform(), false);
 
                 }
+                //当たり判定をなくす
+                GetComponent<SphereCollider>().enabled = false;
                 isHolad = true;
             }
         }
