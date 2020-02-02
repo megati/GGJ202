@@ -43,12 +43,16 @@ public class Enemy : MonoBehaviour
 
     float chaseTime = 0;
 
+    StatusIcon statusIcon = null;
+
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
         navMeshAgent.speed = walkSpeed;
+
+        statusIcon = FindObjectOfType<StatusIcon>();
     }
 
     private void OnEnable()
@@ -84,7 +88,7 @@ public class Enemy : MonoBehaviour
                         chaseTime = 0.0f;
 
                         // プレイヤーを逃す
-                        GameCanvas.Instance.GetStatusIcon().Waring(this);
+                        statusIcon.Waring(this);
 
                         navMeshAgent.isStopped = true;
 
@@ -102,7 +106,7 @@ public class Enemy : MonoBehaviour
 
                             animator.Play(TitanAnimeState.Walk__L0);
                             // プレイヤーを逃す
-                            GameCanvas.Instance.GetStatusIcon().Escaped(this);
+                            statusIcon.Escaped(this);
 
                         }).Play();
                     }
@@ -212,7 +216,7 @@ public class Enemy : MonoBehaviour
         navMeshAgent.speed = runSpeed;
 
         // プレイヤーを発見
-        GameCanvas.Instance.GetStatusIcon().Waring(this);
+        statusIcon.Waring(this);
 
         animator.Play(TitanAnimeState.Run__L0);
 
@@ -225,8 +229,8 @@ public class Enemy : MonoBehaviour
             .SetStateInfo(SurprisedIconAnimeState.SurprisedIconOff__L0)
             .BindFinishedEvent(() =>
             {
-                    // プレイヤーを追跡
-                    GameCanvas.Instance.GetStatusIcon().Danger(this);
+                // プレイヤーを追跡
+                statusIcon.Danger(this);
 
             }).Play();
 
