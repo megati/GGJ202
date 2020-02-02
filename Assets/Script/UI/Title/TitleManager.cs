@@ -21,11 +21,12 @@ public class TitleManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-
+            SceneTransition.Instance.TransitionScene(SceneName.MasterGame);
         }
         if(Input.GetMouseButtonDown(1))
         {
-
+            //Tutorialはここで　
+            //SceneTransition.Instance.TransitionScene(SceneName.);
         }
     }
 }
