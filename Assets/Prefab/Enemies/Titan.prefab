@@ -1469,8 +1469,8 @@ GameObject:
   - component: {fileID: 3824363788063362416}
   - component: {fileID: 3824363788063362418}
   - component: {fileID: 3824363788063362420}
-  - component: {fileID: 3824363788063362422}
   - component: {fileID: 1613741371985276724}
+  - component: {fileID: 3824363788063362422}
   m_Layer: 9
   m_Name: Titan
   m_TagString: Enemy
@@ -1566,21 +1566,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
---- !u!114 &3824363788063362422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3824363788063362419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 233417ba569b04218ba5e416b6ac2a7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 1
-  runSpeed: 2
-  surprisedIconAnimator: {fileID: 8406211918923038943}
 --- !u!82 &1613741371985276724
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1595,7 +1580,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1677,6 +1662,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3824363788063362422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3824363788063362419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233417ba569b04218ba5e416b6ac2a7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 1
+  runSpeed: 2
+  surprisedIconAnimator: {fileID: 8406211918923038943}
 --- !u!1 &3824363788063362421
 GameObject:
   m_ObjectHideFlags: 0

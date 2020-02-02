@@ -20,7 +20,6 @@ public class RoutePoint : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("awake");
         RoutePointManager.Instance.AddRoutePoint(this);
     }
 

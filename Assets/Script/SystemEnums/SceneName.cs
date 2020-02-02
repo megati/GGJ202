@@ -3,6 +3,7 @@
 /// </summary>
 public enum SceneName
 {
-    MasterGame = 0,
-    Result = 1,
+    Title = 0,
+    MasterGame = 1,
+    Result = 2,
 }

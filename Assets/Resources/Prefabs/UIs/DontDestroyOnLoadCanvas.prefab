@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 891990672938890516}
   - component: {fileID: 891990672938890517}
   - component: {fileID: 891990672938890514}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: FadePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &891990673969472412
 MonoBehaviour:

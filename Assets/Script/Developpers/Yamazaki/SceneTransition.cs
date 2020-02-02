@@ -17,7 +17,7 @@ public class SceneTransition : Singleton<SceneTransition>
         {
             SceneController.Instance.LoadSceneAsync(sceneName, null, () =>
             {
-                DontDestroyOnLoadCanvas.Instance.GetFadeableImage.AlphaFadeIn(2f);
+                DontDestroyOnLoadCanvas.Instance.GetFadeableImage.AlphaFadeIn(3f);
             });
         });
     }

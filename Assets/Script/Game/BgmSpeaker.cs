@@ -38,8 +38,6 @@ public class BgmSpeaker : SingletonMonoBehaviour<BgmSpeaker>
 
     public void PlayChaseBgm()
     {
-        Debug.Log("on");
-
         audioSource.Stop();
         audioSource.clip = ChaseBgm;
         audioSource.Play();
