@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 分岐点に置くポイント
 /// </summary>
-[DefaultExecutionOrder(-1)]
+[DefaultExecutionOrder(-50)]
 public class BranchPoint : RoutePoint
 {
     public override RoutePoint GetaNextRoutePoint(RoutePoint preRoutePoint)

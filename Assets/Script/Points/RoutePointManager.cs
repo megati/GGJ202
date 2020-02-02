@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// ルートポイント管理
 /// </summary>
+[DefaultExecutionOrder(-100)]
 public class RoutePointManager : SingletonMonoBehaviour<RoutePointManager>
 {
     /// <summary>
@@ -23,11 +24,18 @@ public class RoutePointManager : SingletonMonoBehaviour<RoutePointManager>
     /// <value>The duration of the get route point close.</value>
     public float GetRoutePointCloseDuration => routePointCloseDuration;
 
+    private void Awake()
+    {
+        PointsClear();
+    }
+
     /// <summary>
     /// ルートポイントとブランチポイントを全て破棄
     /// </summary>
     public void PointsClear()
     {
+        routePoints = routePoints ?? new Dictionary<GameObject, RoutePoint>();
+        branchPoints = branchPoints ?? new Dictionary<GameObject, BranchPoint>();
         routePoints.Clear();
         branchPoints.Clear();
     }

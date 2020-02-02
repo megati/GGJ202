@@ -1,7 +1,8 @@
 ﻿/// <summary>
-/// ビルドシーンの列挙型
+/// Scenes
 /// </summary>
 public enum SceneName
 {
-    SampleScene = 0,
+    MasterGame = 0,
+    Result = 1,
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 道を示す
 /// </summary>
-[DefaultExecutionOrder(-1)]
+[DefaultExecutionOrder(-50)]
 public class RoutePoint : MonoBehaviour
 {
     /// <summary>
@@ -20,6 +20,7 @@ public class RoutePoint : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("awake");
         RoutePointManager.Instance.AddRoutePoint(this);
     }
 
