@@ -16,6 +16,8 @@ public class Bar : MonoBehaviour
     [SerializeField]
     private Color barColor;
 
+    int amount=0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +42,9 @@ public class Bar : MonoBehaviour
 
         percentText.text = percentAmount.ToString() + "%";
         barImage.fillAmount = (percentAmount /100.0f);
-        Debug.Log((percentAmount / 100));
+
+        amount = (int)percentAmount;
     }
+
+    public bool GetIsClear() { return (amount == 100);   }
 }
