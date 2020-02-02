@@ -10,6 +10,11 @@ public class GameController : MonoBehaviour
     //ゲームの制限時間
     private float time = 0.0f;
 
+    private void Awake()
+    {
+        BgmSpeaker.Instance.PlayDefaultBgm();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
