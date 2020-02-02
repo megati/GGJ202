@@ -16,9 +16,9 @@ public enum HoldType
 /// </summary>
 public enum RepairItemType
 {
-    CYLINDER,   //ボンベ
+    BOMBE,   //ボンベ
     FUSE,       //ヒューズ
-    RACK,
+    HANDLE,     //ハンドル
     PACK
 }
 

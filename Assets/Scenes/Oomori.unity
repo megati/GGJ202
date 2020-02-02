@@ -712,13 +712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0df5a8127e6964a8cd80ed80b3d7b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BarList:
-  - {fileID: 1244566574}
-  - {fileID: 1244566574}
-  - {fileID: 1244566574}
-  - {fileID: 1244566574}
 --- !u!4 &1826196535
 Transform:
   m_ObjectHideFlags: 0
@@ -950,10 +943,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5417146432225458809, guid: dc971e6c3f4647a4a8a01ca412ce4bf7,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 116
+      objectReference: {fileID: 0}
     - target: {fileID: 5417146433579109690, guid: dc971e6c3f4647a4a8a01ca412ce4bf7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.68
       objectReference: {fileID: 0}
     - target: {fileID: 5417146433579109690, guid: dc971e6c3f4647a4a8a01ca412ce4bf7,
         type: 3}
@@ -1019,11 +1017,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5917741605572422976, guid: 6b34e34f75474ae4283a801e58d9bfec,
-        type: 3}
-      propertyPath: holdType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5917741605572422983, guid: 6b34e34f75474ae4283a801e58d9bfec,
         type: 3}
       propertyPath: m_LocalPosition.x
