@@ -7,7 +7,8 @@ public class TitleManager : MonoBehaviour
 {
     [SerializeField]
     private Text Timetext=null;
-
+    [SerializeField]
+    private GameObject Tutorial= null;
     // Update is called once per frame
     private void Awake()
     {
@@ -16,17 +17,25 @@ public class TitleManager : MonoBehaviour
         var sec = bestTime.bestRecord % 60;
         var min = bestTime.bestRecord / 60;
         Timetext.text = "BEST TIME: "+min.ToString()+":"+sec;
+        Tutorial.SetActive(false);
     }
     void Update()
     {
+     
         if (Input.GetMouseButtonDown(0))
         {
             SceneTransition.Instance.TransitionScene(SceneName.MasterGame);
         }
         if(Input.GetMouseButtonDown(1))
         {
-            //Tutorialはここで　
-            //SceneTransition.Instance.TransitionScene(SceneName.);
+            if(Tutorial.activeSelf)
+            {
+                Tutorial.SetActive(false);
+            }
+            else
+            {
+                Tutorial.SetActive(true);
+            }
         }
     }
 }
