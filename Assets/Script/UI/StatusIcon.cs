@@ -71,6 +71,8 @@ public class StatusIcon : MonoBehaviour
         }
 
         ShowDangerStatusIcon();
+
+        BgmSpeaker.Instance.PlayChaseBgm();
     }
 
     /// <summary>
@@ -97,6 +99,8 @@ public class StatusIcon : MonoBehaviour
             else
             {
                 ShowSearchStatusIcon();
+
+                BgmSpeaker.Instance.PlayDefaultBgm();
             }
         }
     }
