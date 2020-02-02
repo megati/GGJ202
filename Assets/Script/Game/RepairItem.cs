@@ -47,7 +47,7 @@ public class RepairItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isHolad && Input.GetMouseButtonDown(0))
+        if (isHolad && Input.GetMouseButtonDown(1))
         {
             PlayerState playerState = Player.GetComponent<PlayerState>();
             //所有権を放棄
@@ -72,6 +72,8 @@ public class RepairItem : MonoBehaviour
                 PlayerState playerState= Player.GetComponent<PlayerState>();
                 if (playerState.IsHolad()) return;
 
+                //登録
+                playerState.PossessionRegister(repairItemType);
                 Point.SetActive(false);
                 if (holdType == HoldType.BAG)
                 {

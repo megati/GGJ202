@@ -438,9 +438,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b921667b5b2547649910c0e6b278f525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI: {fileID: 0}
   popUp: {fileID: 3874578888211829846}
   mousePlease: {fileID: 3874578887425518610}
   popupAnimation: {fileID: 3874578887714906417}
+  bar: {fileID: 0}
+  repairItemType: 0
+  time: 0
 --- !u!111 &3874578887714906417
 Animation:
   m_ObjectHideFlags: 0

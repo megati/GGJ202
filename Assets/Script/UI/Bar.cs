@@ -36,7 +36,10 @@ public class Bar : MonoBehaviour
     /// <param name="percentAmount"></param>
     public void SetParameter(float percentAmount)
     {
+        if (percentAmount > 100.0f) percentAmount = 100.0f;
+
         percentText.text = percentAmount.ToString() + "%";
-        barImage.fillAmount = percentAmount /100;
+        barImage.fillAmount = (percentAmount /100.0f);
+        Debug.Log((percentAmount / 100));
     }
 }

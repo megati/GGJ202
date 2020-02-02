@@ -25,6 +25,10 @@ public class SlideGimmick : MonoBehaviour
     private Scrollbar targetPos = null;
     private bool is_Push = false;
     private bool is_Counter=false;
+
+    //修理場所
+    private Defective defective;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -73,12 +77,11 @@ public class SlideGimmick : MonoBehaviour
     }
     void Check()
     {
-        Debug.Log(100 - checkRange.y);
         if (num >= checkRange.x && num <= checkRange.y + checkRange.x)
         {
             niceText.SetActive(true);
             StartCoroutine(NextTargetPos());
-            Debug.Log("修理時間-5秒");
+            defective.TimePlus();
         }
         else
         {
@@ -105,5 +108,13 @@ public class SlideGimmick : MonoBehaviour
         missText.SetActive(false);
         miss = false;
         num = 0;
+    }
+
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    public void Init(Defective copyDefective)
+    {
+        defective=copyDefective;
     }
 }

@@ -54,4 +54,10 @@ public class PlayerState : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     public bool IsHolad() { return isHold; }
+
+    /// <summary>
+    /// 持っているものを渡す
+    /// </summary>
+    /// <returns></returns>
+    public RepairItemType GetRepairItemType() { return repairItemType; }
 }
