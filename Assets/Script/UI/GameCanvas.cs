@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class GameCanvas : SingletonMonoBehaviour<GameCanvas>
 {
-    [SerializeField]
-    StatusIcon statusIcon = null;
+    //[SerializeField]
+    //StatusIcon statusIcon = null;
 
-    public StatusIcon GetStatusIcon() => statusIcon;
+    //public StatusIcon GetStatusIcon => statusIcon;
+
+    private void OnEnable()
+    {
+
+    }
 }
