@@ -33,7 +33,7 @@ public class RepairItem : MonoBehaviour
     private HoldType holdType= HoldType.BAG;
     //回収するアイテム
     [SerializeField]
-    private RepairItemType repairItemType = RepairItemType.CYLINDER;
+    private RepairItemType repairItemType = RepairItemType.BOMBE;
 
     private GameObject Player;
     private bool isHolad = false;

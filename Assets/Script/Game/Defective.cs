@@ -23,7 +23,7 @@ public class Defective : MonoBehaviour
     [Header("Option")]
     //修復する種類
     [SerializeField]
-    private RepairItemType repairItemType = RepairItemType.CYLINDER;
+    private RepairItemType repairItemType = RepairItemType.BOMBE;
 
     private GameObject camera;
     private GameObject player;
