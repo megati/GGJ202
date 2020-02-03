@@ -8,68 +8,85 @@ using UnityEngine;
 public static class AnimatorExtension
 {
     /// <summary>
-    /// <para>指定した列挙型がアニメーションステートのハッシュを持つのであれば再生する</para>
-    /// ※現在のステートを指定した場合は無効
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="state">アニメーションステートのハッシュの数値を持つ列挙型</param>
-    /// <param name="layer">レイヤー番号</param>
-    /// <param name="playingCallback">再生中のコールバック（normalizeTimeを引数に持ってこれる）</param>
-    /// <param name="successAction">予定されていた再生終了時に呼ばれる処理</param>
-    /// <param name="failureAction">予定されていなかった再生終了時に呼ばれる処理</param>
-    /// <param name="endAction">再生終了時に共通に呼ばれる処理</param>
-    public static void Play(this Animator self, System.Enum state, int layer = 0, System.Action<float> playingCallback = null,
-        System.Action successAction = null, System.Action failureAction = null, System.Action endAction = null)
-    {
-        self.Play(StateToInt32(state), layer);
-
-        if (playingCallback != null || successAction != null || failureAction != null || endAction != null)
-        {
-            GlobalCoroutine.Instance.StartCoroutine(ObserveLayerCoroutine(self, layer, playingCallback, successAction, failureAction, endAction));
-        }
-    }
-
-    /// <summary>
-    /// 指定した列挙型がアニメーションステートのハッシュを持つのであれば再生する
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="state">アニメーションステートのハッシュの数値を持つ列挙型</param>
-    /// <param name="layer">レイヤー番号</param>
-    /// <param name="normalizedTime">0～１を指定可能</param>
-    /// <param name="playingCallback">再生中のコールバック（normalizeTimeを引数に持ってこれる）</param>
-    /// <param name="successAction">予定されていた再生終了時に呼ばれる処理</param>
-    /// <param name="failureAction">予定されていなかった再生終了時に呼ばれる処理</param>
-    /// <param name="endAction">再生終了時に共通に呼ばれる処理</param>
-    public static void ForcePlay(this Animator self, System.Enum state, int layer = 0, float normalizedTime = 0.0f,
-        System.Action<float> playingCallback = null, System.Action successAction = null, System.Action failureAction = null, System.Action endAction = null)
-    {
-        self.Play(StateToInt32(state), layer, normalizedTime);
-
-        if (successAction != null || failureAction != null || endAction != null)
-        {
-            GlobalCoroutine.Instance.StartCoroutine(ObserveLayerCoroutine(self, layer, playingCallback, successAction, failureAction, endAction));
-        }
-    }
-
-    /// <summary>
     /// シーケンサーを作成する
     /// </summary>
     /// <param name="self"></param>
     /// <returns></returns>
-    public static AnimationEventBinder CreateSequencer(this Animator self)
+    public static AnimationEventBinder CreateSequencer(this Animator self) => new AnimationEventBinder(self);
+
+    /// <summary>
+    /// レイヤー単位でアニメーション中か
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    public static bool IsPlaying(this Animator self, int layer = 0) => self.GetCurrentAnimatorStateInfo(layer).normalizedTime <= 1.0f;
+
+    /// <summary>
+    /// レイヤー単位で再生中のハッシュを返す
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    public static int GetPlayingStateHash(this Animator self, int layer = 0) => self.GetCurrentAnimatorStateInfo(layer).fullPathHash;
+
+    /// <summary>
+    /// 再生中のNormalizedTimeを返す
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="layer"></param>
+    /// <returns></returns>
+    public static float GetNormalizedTime(this Animator self, int layer) => self.GetCurrentAnimatorStateInfo(layer).normalizedTime;
+
+    /// <summary>
+    /// ステート列挙型をint型に変換する
+    /// </summary>
+    /// <param name="state"></param>
+    /// <returns></returns>
+    public static int GetStateToInt32(this Animator self, System.Enum state) => System.Convert.ToInt32(state);
+
+    /// <summary>
+    /// イベントをバインドしアニメーションを再生する
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="state"></param>
+    /// <param name="layer"></param>
+    /// <param name="normalizedTime"></param>
+    /// <param name="onFinish">最後まで再生されたら呼ばれる</param>
+    /// <param name="onTransition">遷移成功時に呼ばれる</param>
+    /// <param name="onPlaying">再生中呼ばれる</param>
+    /// <param name="onOtherPlay">他のアニメーションが再生されたら呼ばれる</param>
+    /// <param name="onEnd">終了時に必ず呼ばれる</param>
+    public static void Play(this Animator self, System.Enum state, int layer = 0, float normalizedTime = 0.0f,
+        System.Action onFinish = null, System.Action<int> onTransition = null,
+        System.Action<float> onPlaying = null, System.Action onOtherPlay = null, System.Action onEnd = null)
     {
-        return new AnimationEventBinder(self);
+        Play(self, GetStateToInt32(self, state), layer, normalizedTime, onFinish, onTransition, onPlaying, onOtherPlay, onEnd);
     }
 
-    ///// <summary>
-    ///// アニメーションに単純なコールバックを持たせて再生させれるクラスを生成する
-    ///// </summary>
-    ///// <param name="self"></param>
-    ///// <returns></returns>
-    //public static AnimationStateSetter CreateStateSetter(this Animator self)
-    //{
-    //    return new AnimationStateSetter(self);
-    //}
+    /// <summary>
+    /// イベントをバインドしアニメーションを再生する
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="stateFullHashPath"></param>
+    /// <param name="layer"></param>
+    /// <param name="normalizedTime"></param>
+    /// <param name="onFinish">最後まで再生されたら呼ばれる</param>
+    /// <param name="onTransition">遷移成功時に呼ばれる</param>
+    /// <param name="onPlaying">再生中呼ばれる</param>
+    /// <param name="onOtherPlay">他のアニメーションが再生されたら呼ばれる</param>
+    /// <param name="onEnd">終了時に必ず呼ばれる</param>
+    public static void Play(this Animator self, int stateFullHashPath, int layer = 0, float normalizedTime = 0.0f,
+    System.Action onFinish = null, System.Action<int> onTransition = null,
+    System.Action<float> onPlaying = null, System.Action onOtherPlay = null, System.Action onEnd = null)
+    {
+        self.Play(stateFullHashPath, layer, normalizedTime);
+
+        if (onFinish == null || onTransition == null || onPlaying == null || onOtherPlay == null || onEnd == null)
+        {
+            GlobalCoroutine.Instance.StartCoroutine(PlayCoroutine(self, stateFullHashPath, layer, onFinish, onTransition, onPlaying, onOtherPlay, onEnd));
+        }
+    }
 
     /// <summary>
     /// 指定したステートが再生中かどうか
@@ -102,47 +119,29 @@ public static class AnimatorExtension
     }
 
     /// <summary>
-    /// レイヤー単位でアニメーション中か
+    /// アニメーションを再生しバインドしたイベントを実行するコルーチン
     /// </summary>
     /// <param name="self"></param>
+    /// <param name="stateFullHashPath"></param>
     /// <param name="layer"></param>
+    /// <param name="onFinish">最後まで再生されたら呼ばれる</param>
+    /// <param name="onTransition">遷移成功時に呼ばれる</param>
+    /// <param name="onPlaying">再生中呼ばれる</param>
+    /// <param name="onOtherPlay">他のアニメーションが再生されたら呼ばれる</param>
+    /// <param name="onEnd">終了時に必ず呼ばれる</param>
     /// <returns></returns>
-    public static bool IsPlaying(this Animator self, int layer = 0)
-    {
-        return self.GetCurrentAnimatorStateInfo(layer).normalizedTime <= 1.0f;
-    }
-
-    /// <summary>
-    /// レイヤー単位で再生中のハッシュを返す
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="layer"></param>
-    /// <returns></returns>
-    public static int PlayingStateHash(this Animator self, int layer = 0)
-    {
-        return self.GetCurrentAnimatorStateInfo(layer).fullPathHash;
-    }
-
-    /// <summary>
-    /// 指定したレイヤーで再生中のアニメーションを監視するコルーチン
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="layer">レイヤー番号</param>
-    /// <param name="playingCallback">再生中のコールバック（normalizedTimeを引数として持ってこれる）</param>    
-    /// <param name="successAction">アニメーションが予測通りに遷移or終了した際に呼ばれる処理</param>
-    /// <param name="failureAction">アニメーションが予測とは違う遷移をした際に呼ばれる処理</param>
-    /// <param name="endAction">アニメーションが終了した際に共通で呼ばれる処理</param>
-    /// <returns></returns>
-    public static IEnumerator ObserveLayerCoroutine(this Animator self, int layer, System.Action<float> playingCallback = null,
-        System.Action successAction = null, System.Action failureAction = null, System.Action endAction = null, System.Action onTransition = null)
+    public static IEnumerator PlayCoroutine(this Animator self, int stateFullHashPath, int layer,
+        System.Action onFinish = null,
+        System.Action<int> onTransition = null,
+        System.Action<float> onPlaying = null,
+        System.Action onOtherPlay = null,
+        System.Action onEnd = null)
     {
         yield return null;
 
-        // 再生中のアニメーションステートを取得
-        var state = self.GetCurrentAnimatorStateInfo(layer).fullPathHash;
         while (true)
         {
-            playingCallback?.Invoke(self.GetCurrentAnimatorStateInfo(layer).normalizedTime);
+            onPlaying?.Invoke(self.GetCurrentAnimatorStateInfo(layer).normalizedTime);
 
             // 次のアニメーションに遷移開始したら
             if (self.IsInTransition(layer))
@@ -159,21 +158,21 @@ public static class AnimatorExtension
                     return (self.IsInTransition(layer));
                 });
 
-                onTransition?.Invoke();
+                onTransition?.Invoke(self.GetCurrentAnimatorStateInfo(layer).fullPathHash);
                 break;
             }
 
             // アニメーションが最後まで再生されたら
             if (!IsPlaying(self, layer))
             {
-                successAction?.Invoke();
+                onFinish?.Invoke();
                 break;
             }
 
             // 遷移せずにアニメーションが切り替わったら
-            if (self.GetCurrentAnimatorStateInfo(layer).fullPathHash != state)
+            if (self.GetCurrentAnimatorStateInfo(layer).fullPathHash != stateFullHashPath)
             {
-                failureAction?.Invoke();
+                onOtherPlay?.Invoke();
                 break;
             }
 
@@ -181,32 +180,17 @@ public static class AnimatorExtension
         }
 
         // 共通の終了処理
-        endAction?.Invoke();
+        onEnd?.Invoke();
     }
 
-    /// <summary>
-    /// 再生中のNormalizedTimeを返す
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="layer"></param>
-    /// <returns></returns>
-    public static float GetNormalizedTime(this Animator self, int layer) => self.GetCurrentAnimatorStateInfo(layer).normalizedTime;
-
-    /// <summary>
-    /// ステート列挙型をint型に変換する
-    /// </summary>
-    /// <param name="state"></param>
-    /// <returns></returns>
-    static int StateToInt32(System.Enum state) => System.Convert.ToInt32(state);
-
-    /// <summary>
-    /// 指定したステートのレイヤー（重いため非推奨）
-    /// </summary>
-    /// <param name="state"></param>
-    /// <returns></returns>
-    static int StateLayer(System.Enum state, int hash)
-    {
-        var name = System.Enum.GetName(state.GetType(), hash);
-        return int.Parse(name.Substring(name.Length - 1));
-    }
+    ///// <summary>
+    ///// 指定したステートのレイヤー（重いため非推奨）
+    ///// </summary>
+    ///// <param name="state"></param>
+    ///// <returns></returns>
+    //public static int StateLayer(this Animator self, System.Enum state, int hash)
+    //{
+    //    var name = System.Enum.GetName(state.GetType(), hash);
+    //    return int.Parse(name.Substring(name.Length - 1));
+    //}
 }
