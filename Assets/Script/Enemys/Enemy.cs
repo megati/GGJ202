@@ -15,6 +15,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     float runSpeed = 2.0f;
 
+    [SerializeField, Range(0, 100)]
+    int searchAroundRate = 50;
+
     [SerializeField]
     Animator surprisedIconAnimator = null;
 
@@ -49,6 +52,7 @@ public class Enemy : MonoBehaviour
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        animationEventBinder = new AnimationEventBinder(animator);
 
         navMeshAgent.speed = walkSpeed;
 
@@ -92,22 +96,28 @@ public class Enemy : MonoBehaviour
 
                         navMeshAgent.isStopped = true;
 
-                        animationEventBinder = animationEventBinder ?? new AnimationEventBinder(GetComponent<Animator>());
-                        animationEventBinder.SetStateInfo(TitanAnimeState.Idle__L0)
-                        .BindCompletedEvent(() =>
+                        animationEventBinder.SetParam(TitanAnimeState.Idle__L0)
+                        .BindTransition((path) =>
                         {
-                            enemyState = EnemyState.Patrol;
+                            switch ((TitanAnimeState)path)
+                            {
+                                case TitanAnimeState.Walk__L0:
+                                    {
+                                        enemyState = EnemyState.Patrol;
 
-                            navMeshAgent.speed = walkSpeed;
-                            navMeshAgent.isStopped = false;
+                                        navMeshAgent.speed = walkSpeed;
+                                        navMeshAgent.isStopped = false;
 
-                            nextRoutePoint = RoutePointManager.Instance.GetNearRoutePoint(transform.position);
-                            navMeshAgent.SetDestination(nextRoutePoint.transform.position);
+                                        nextRoutePoint = RoutePointManager.Instance.GetNearRoutePoint(transform.position);
+                                        navMeshAgent.SetDestination(nextRoutePoint.transform.position);
 
-                            animator.Play(TitanAnimeState.Walk__L0);
-                            // プレイヤーを逃す
-                            statusIcon.Escaped(this);
+                                        // プレイヤーを逃す
+                                        statusIcon.Escaped(this);
 
+                                        break;
+                                    }
+                                default: break;
+                            }
                         }).Play();
                     }
                     break;
@@ -158,6 +168,18 @@ public class Enemy : MonoBehaviour
                     navMeshAgent.SetDestination(nextRoutePoint.transform.position);
                 }
                 beforRoutePoint = routePoint;
+
+                if (Random.Range(0, 101) <= searchAroundRate)
+                {
+                    navMeshAgent.isStopped = true;
+
+                    animationEventBinder.SetParam(TitanAnimeState.Idle__L0)
+                        .BindEnd(() =>
+                        {
+                            navMeshAgent.isStopped = false;
+
+                        }).Play();
+                }
             }
         }
         else if (other.CompareTag("BranchPoint"))
@@ -184,6 +206,18 @@ public class Enemy : MonoBehaviour
                     nextRoutePoint.Close();
                 }
                 beforRoutePoint = branchPoint;
+            }
+
+            if (Random.Range(0, 101) <= searchAroundRate)
+            {
+                navMeshAgent.isStopped = true;
+
+                animationEventBinder.SetParam(TitanAnimeState.Idle__L0)
+                    .BindEnd(() =>
+                    {
+                        navMeshAgent.isStopped = false;
+
+                    }).Play();
             }
         }
     }
@@ -224,13 +258,14 @@ public class Enemy : MonoBehaviour
         animator.Play(TitanAnimeState.Run__L0);
 
         surprisedIconAnimationEventBinder = surprisedIconAnimationEventBinder ?? new AnimationEventBinder(surprisedIconAnimator);
+
         surprisedIconAnimationEventBinder
-        .SetStateInfo(SurprisedIconAnimeState.SurprisedIconOn__L0)
-        .BindFinishedEvent(() =>
+        .SetParam(SurprisedIconAnimeState.SurprisedIconOn__L0)
+        .BindEnd(() =>
         {
             surprisedIconAnimationEventBinder
-            .SetStateInfo(SurprisedIconAnimeState.SurprisedIconOff__L0)
-            .BindFinishedEvent(() =>
+            .SetParam(SurprisedIconAnimeState.SurprisedIconOff__L0)
+            .BindEnd(() =>
             {
                 // プレイヤーを追跡
                 statusIcon.Danger(this);

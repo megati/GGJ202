@@ -10,13 +10,15 @@ public class AnimationEventBinder
 {
     Animator _animator = null;
 
-    Action _onCompleted = null;
-    Action _onFailed = null;
-    Action _onFinished = null;
+    Action _onFinish = null;
+    Action<int> _onTransition = null;
     Action<float> _onPlaying = null;
+    Action _onOtherPlay = null;
+    Action _onEnd = null;
 
-    Enum _state = default;
+    Enum _state = null;
     int _layer = 0;
+    float _normalizeTime = 0.0f;
 
     /// <summary>
     /// コンストラクト（Animatorを取得）
@@ -28,27 +30,40 @@ public class AnimationEventBinder
     }
 
     /// <summary>
-    /// アニメーション情報を設定
+    /// アニメーションのパラメータを設定
     /// </summary>
     /// <param name="state"></param>
     /// <param name="layer"></param>
+    /// <param name="normalizeTime"></param>
     /// <returns></returns>
-    public AnimationEventBinder SetStateInfo(Enum state, int layer = 0)
+    public AnimationEventBinder SetParam(Enum state, int layer = 0, float normalizeTime = 0.0f)
     {
         _state = state;
         _layer = layer;
+        _normalizeTime = normalizeTime;
 
         return this;
     }
 
     /// <summary>
-    /// 指定したアニメーションステートを再生
+    /// 指定したアニメーションを再生
     /// </summary>
-    /// <param name="state"></param>
-    /// <param name="layer"></param>
     public void Play()
     {
-        _animator.Play(_state, _layer, _onPlaying, _onCompleted, _onFailed, _onFinished);
+        if (_state == null)
+        {
+            Debug.LogError("AnimationEventBinder::Play FAIL. Call SetParam befor Play.");
+            return;
+        }
+
+        _animator.Play(_state, _layer, _normalizeTime, _onFinish, _onTransition, _onPlaying, _onOtherPlay, _onEnd);
+
+        _state = null;
+        _onFinish = null;
+        _onTransition = null;
+        _onPlaying = null;
+        _onOtherPlay = null;
+        _onEnd = null;
     }
 
     /// <summary>
@@ -56,9 +71,20 @@ public class AnimationEventBinder
     /// </summary>
     /// <param name="onEvent"></param>
     /// <returns></returns>
-    public AnimationEventBinder BindCompletedEvent(Action onEvent)
+    public AnimationEventBinder BindFinish(Action onEvent)
     {
-        _onCompleted = onEvent;
+        _onFinish = onEvent;
+        return this;
+    }
+
+    /// <summary>
+    /// 遷移時の処理を登録
+    /// </summary>
+    /// <param name="onEvent"></param>
+    /// <returns></returns>
+    public AnimationEventBinder BindTransition(Action<int> onEvent)
+    {
+        _onTransition = onEvent;
         return this;
     }
 
@@ -67,9 +93,9 @@ public class AnimationEventBinder
     /// </summary>
     /// <param name="onEvent"></param>
     /// <returns></returns>
-    public AnimationEventBinder BindFailedEvent(Action onEvent)
+    public AnimationEventBinder BindOtherPlay(Action onEvent)
     {
-        _onFailed = onEvent;
+        _onOtherPlay = onEvent;
         return this;
     }
 
@@ -78,9 +104,9 @@ public class AnimationEventBinder
     /// </summary>
     /// <param name="onEvent"></param>
     /// <returns></returns>
-    public AnimationEventBinder BindFinishedEvent(Action onEvent)
+    public AnimationEventBinder BindEnd(Action onEvent)
     {
-        _onFinished = onEvent;
+        _onEnd = onEvent;
         return this;
     }
 
@@ -89,7 +115,7 @@ public class AnimationEventBinder
     /// </summary>
     /// <param name="onEvent">normalizeTimeが引数として取得できる</param>
     /// <returns></returns>
-    public AnimationEventBinder BindPlayingEvent(Action<float> onEvent)
+    public AnimationEventBinder BindPlaying(Action<float> onEvent)
     {
         _onPlaying = onEvent;
         return this;
