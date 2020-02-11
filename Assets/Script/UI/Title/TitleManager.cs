@@ -21,21 +21,6 @@ public class TitleManager : MonoBehaviour
     }
     void Update()
     {
-     
-        if (Input.GetMouseButtonDown(0))
-        {
-            SceneTransition.Instance.TransitionScene(SceneName.MasterGame);
-        }
-        if(Input.GetMouseButtonDown(1))
-        {
-            if(Tutorial.activeSelf)
-            {
-                Tutorial.SetActive(false);
-            }
-            else
-            {
-                Tutorial.SetActive(true);
-            }
-        }
+
     }
 }
