@@ -130,6 +130,7 @@ public class FadeableImage : MonoBehaviour
     /// <param name="endAction"></param>
     public void AlphaFadeIn(float duration, System.Action endAction = null)
     {
+        _image.raycastTarget = true;
         if (!(_image = _image ?? GetComponent<Image>()))
         {
             Debug.LogError("Null Image Component.");
@@ -152,6 +153,7 @@ public class FadeableImage : MonoBehaviour
     /// <param name="endAction"></param>
     public void AlphaFadeOut(float duration, System.Action endAction = null)
     {
+        _image.raycastTarget = true;
         if (!(_image = _image ?? GetComponent<Image>()))
         {
             Debug.LogError("Null Image Component.");
@@ -196,6 +198,7 @@ public class FadeableImage : MonoBehaviour
         });
 
         endAction?.Invoke();
+        _image.raycastTarget = false;
     }
 
     /// <summary>
