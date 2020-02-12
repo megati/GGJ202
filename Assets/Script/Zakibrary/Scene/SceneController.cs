@@ -123,6 +123,9 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         // 読み込み開始
         async.allowSceneActivation = false;
 
+        // 成功時処理登録
+        async.completed += (asyncOperation) => onComplate?.Invoke();
+
         // 開始時の処理を実行
         onStart?.Invoke();
 
@@ -158,10 +161,5 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
                 return !(async.allowSceneActivation);
             });
         }
-
-        // 完了時の処理を実行
-        onComplate?.Invoke();
-
-        yield return async;
     }
 }
